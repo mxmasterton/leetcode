@@ -1,0 +1,21 @@
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        subsets, current_set = [], []
+        self.helper(0, nums, current_set, subsets)
+        return subsets
+
+    def helper(self, i, nums, current_set, subsets):
+        if i >= len(nums):
+            subsets.append(current_set.copy())
+            return
+
+        # decision to include nums[i]
+        current_set.append(nums[i])
+        self.helper(i + 1, nums, current_set, subsets)
+        current_set.pop()
+
+        # decision not to include nums[i]:
+        while i + 1 < len(nums) and nums[i] == nums[i + 1]:
+            i += 1
+        self.helper(i + 1, nums, current_set, subsets)
